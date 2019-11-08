@@ -1,6 +1,5 @@
 FROM golang:alpine
 
-
 RUN mkdir /tmpMake
 ADD . /tmpMake
 WORKDIR /tmpMake
