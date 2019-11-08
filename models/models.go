@@ -5,11 +5,9 @@ package models
 import (
     "log"
     "fmt"
-
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
-
-    "shop/pkg/setting"
+	"os"
 )
 
 var db *gorm.DB
@@ -23,20 +21,15 @@ type Model struct {
 func init() {
     var (
         err error
-        dbType, dbName, user, password, host, tablePrefix string
+		dbType, dbName, user, password, host, tablePrefix string
     )
 
-    sec, err := setting.Cfg.GetSection("database")
-    if err != nil {
-        log.Fatal(2, "Fail to get section 'database': %v", err)
-    }
-
-    dbType = sec.Key("TYPE").String()
-    dbName = sec.Key("NAME").String()
-    user = sec.Key("USER").String()
-    password = sec.Key("PASSWORD").String()
-    host = sec.Key("HOST").String()
-    tablePrefix = sec.Key("TABLE_PREFIX").String()
+	dbType = os.Getenv("DBTYPE")
+    dbName = os.Getenv("DBNAME")
+    user = os.Getenv("DBUSER")
+    password = os.Getenv("DBPASSWORD")
+    host = os.Getenv("DBHOST")
+    tablePrefix = os.Getenv("DBTABLE_PREFIX")
 
     db, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", 
         user, 

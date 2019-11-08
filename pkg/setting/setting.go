@@ -4,7 +4,8 @@ package setting
 import (
     "log"
     "time"
-
+	"os"
+	"strconv"
     "github.com/go-ini/ini"
 )
 
@@ -19,6 +20,8 @@ var (
 
     PageSize int
     JwtSecret string
+
+	dbType, dbName, user, password, host, tablePrefix string
 )
 
 func init() {
@@ -28,22 +31,26 @@ func init() {
         log.Fatalf("Fail to parse 'conf/app.ini': %v", err)
     }
 
-    LoadBase()
     LoadServer()
     LoadApp()
 }
 
-func LoadBase() {
-    RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
-}
 
 func LoadServer() {
     sec, err := Cfg.GetSection("server")
     if err != nil {
         log.Fatalf("Fail to get section 'server': %v", err)
     }
+	
+	RunMode = os.Getenv("RUN_MODE")
+	if len(RunMode)==0 {
+		RunMode = "debug"
+	}
+    HTTPPort,err = strconv.Atoi(os.Getenv("HTTPPort"))
+	if err != nil{
+		HTTPPort = 8000
+	}
 
-    HTTPPort = sec.Key("HTTP_PORT").MustInt(8000)
     ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
     WriteTimeout =  time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second    
 }
