@@ -11,7 +11,6 @@ RUN apk add --no-cache tzdata && \
     echo "Asia/Shanghai" > /etc/timezone && \
 	mkdir -p /server/runtime/log && \
 	cp -r /tmpMake/main /server/ && \
-	cp -r /tmpMake/runtime /server && \
 	cp -r /tmpMake/conf /server 
 
 WORKDIR /server
