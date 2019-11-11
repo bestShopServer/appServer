@@ -1,2 +1,4 @@
 runtime/
 *.swp
+.idea/
+.idea
