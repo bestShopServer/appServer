@@ -2,3 +2,4 @@ runtime/
 *.swp
 .idea/
 .idea
+go.sum
