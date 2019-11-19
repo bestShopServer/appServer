@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"shop/pkg/setting"
+	"shop/services"
 )
 
 func InitRouter() *gin.Engine {
@@ -19,6 +20,8 @@ func InitRouter() *gin.Engine {
 		apiv1.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "pong")
 		})
+		apiv1.POST("/code2session", services.PostCode2Session)
+		apiv1.POST("/goods/list", services.PostGoodsList)
 	}
 	return r
 }

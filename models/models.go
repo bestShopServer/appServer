@@ -21,6 +21,7 @@ func Setup() {
 			setting.Dbcfg.DbPort,
 			setting.Dbcfg.DbName)); err != nil {
 		logging.Fatal(err)
+		fmt.Printf("db[%v]", err.Error())
 	}
 
 	db.SingularTable(true)
