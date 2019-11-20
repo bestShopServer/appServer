@@ -51,7 +51,7 @@ func (g *Gin) ResponseJsonError(code int) {
 // Response setting gin.JSON
 func (g *Gin) ResponseJsonMessage(obj interface{}) {
 	g.C.JSON(http.StatusOK, obj)
-	logging.Info("%v", obj)
+	logging.Info("%+v", obj)
 	return
 }
 
