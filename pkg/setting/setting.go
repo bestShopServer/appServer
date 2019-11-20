@@ -1,6 +1,7 @@
 package setting
 
 import (
+	"fmt"
 	"github.com/go-ini/ini"
 	"os"
 	"shop/pkg/logging"
@@ -28,18 +29,27 @@ type database struct {
 	DbHost string
 	DbPort int
 	DbName string
+	Step   int
+}
+
+//数据库配置
+type wechat struct {
+	AppId  string
+	Secret string
 }
 
 var (
 	AppCfg    = &app{}
 	ServerCfg = &server{}
 	Dbcfg     = &database{}
+	WechatCfg = &wechat{}
 	cfg       *ini.File
 )
 
 // Setup initialize the configuration instance
 func Setup() {
 	var err error
+	fmt.Printf("RunMode[%v]", os.Getenv("RunMode"))
 	if RunMode := os.Getenv("RunMode"); RunMode == "release" {
 		if cfg, err = ini.Load("conf/app_release.ini"); err != nil {
 			logging.Fatal(err)
@@ -53,6 +63,7 @@ func Setup() {
 	mapTo("app", AppCfg)
 	mapTo("server", ServerCfg)
 	mapTo("database", Dbcfg)
+	mapTo("wechat", Dbcfg)
 
 	ServerCfg.ReadTimeout = ServerCfg.ReadTimeout * time.Second
 	ServerCfg.WriteTimeout = ServerCfg.WriteTimeout * time.Second
